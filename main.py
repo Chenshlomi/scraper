@@ -250,7 +250,7 @@ def main():
     Entry point for the command-line application.
     """
     print("=" * 80)
-    print("🐾 WIKIPEDIA ANIMAL NAMES AND COLLATERAL ADJECTIVES SCRAPER")
+    print("WIKIPEDIA ANIMAL NAMES AND COLLATERAL ADJECTIVES SCRAPER")
     print("=" * 80)
     print("This application demonstrates production-grade Python software engineering:")
     print("• Modular architecture with clear separation of concerns")
