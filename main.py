@@ -140,7 +140,7 @@ class AnimalScraperApplication:
             if successful_downloads:
                 self.logger.info("Sample successful downloads:")
                 for entry in successful_downloads:
-                    self.logger.info(f"  ✓ {entry['animal']}: {entry['local_image_path']}")
+                    self.logger.info(f"{entry['animal']}: {entry['local_image_path']}")
             
             self.app_stats['download_time'] = time.time() - phase_start
             return data_with_images
