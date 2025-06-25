@@ -7,7 +7,7 @@ A production-grade Python application that scrapes animal names and their collat
 - **Web Scraping**: Extracts animal names and collateral adjectives from Wikipedia's list of animal names
 - **Threading**: Concurrent image downloads using ThreadPoolExecutor for improved performance
 - **Data Processing**: Validates, deduplicates, and enriches scraped data
-- **HTML Format**
+- **HTML Format**: Allows you to search for an animal
 - **Error Handling**: Comprehensive error handling with retry logic and logging
 - **Production Architecture**: Modular design with clear separation of concerns
 
