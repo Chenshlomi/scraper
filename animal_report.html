@@ -1,0 +1,3193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Collateral Adjectives Report</title>
+    <style>
+        /* Modern CSS reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+            display: block;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .animal-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .animal-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .animal-image.placeholder {
+            background: linear-gradient(45deg, #bdc3c7, #ecf0f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .animal-content {
+            padding: 20px;
+        }
+
+        .animal-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-transform: capitalize;
+        }
+
+        .adjectives-section {
+            margin-top: 15px;
+        }
+
+        .adjectives-label {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .adjectives-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .adjective-tag {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            text-transform: lowercase;
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .adjective-tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+        }
+
+        .multiple-adjectives {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .image-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .footer p {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1em;
+            margin: 20px auto;
+            display: block;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .animals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stats-panel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 Animal Collateral Adjectives</h1>
+            <p class="subtitle">A comprehensive collection of animals and their descriptive adjectives</p>
+            <p style="color: #95a5a6; font-size: 0.9em; margin-top: 10px;">
+                Generated on 2025-07-02 07:17:13 | Source: Wikipedia
+            </p>
+        </div>
+
+        
+        <div class="stats-panel">
+            <div class="stat-card">
+                <span class="stat-number">170</span>
+                <span class="stat-label">Total Animals</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">302</span>
+                <span class="stat-label">Total Adjectives</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">242</span>
+                <span class="stat-label">Unique Adjectives</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">105</span>
+                <span class="stat-label">Multiple Adjectives</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">169</span>
+                <span class="stat-label">With Images</span>
+            </div>
+        </div>
+        
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <input type="text" id="searchBox" class="search-box" 
+                   placeholder="🔍 Search animals or adjectives...">
+            <p id="resultsCount" style="color: #7f8c8d; margin-top: 10px;">
+                Showing 170 animals
+            </p>
+        </div>
+
+        <div class="animals-grid">
+            
+            <div class="animal-card multiple-adjectives" data-animal="albatross">
+                <img src="file:///tmp/albatross_image.jpg" alt="Albatross" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Albatross</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">diomedeid</span>
+                    <span class="adjective-tag">diomedeine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="alligator">
+                <img src="file:///tmp/alligator_image.png" alt="Alligator" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Alligator</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">alligatorid</span>
+                    <span class="adjective-tag">alligatorine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="alpaca">
+                <img src="file:///tmp/alpaca_image.jpg" alt="Alpaca" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Alpaca</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">camelid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="ant">
+                <img src="file:///tmp/ant_image.jpg" alt="Ant" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Ant</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">formicid</span>
+                    <span class="adjective-tag">formicine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="antelope">
+                <img src="file:///tmp/antelope_image.jpg" alt="Antelope" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Antelope</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">antilopine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="ape">
+                <img src="file:///tmp/ape_image.jpg" alt="Ape" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Ape</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">simian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="armadillo">
+                <img src="file:///tmp/armadillo_image.jpg" alt="Armadillo" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Armadillo</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (5)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">chlamyphorid</span>
+                    <span class="adjective-tag">chlamyphorine</span>
+                    <span class="adjective-tag">cingulatan</span>
+                    <span class="adjective-tag">dasypodid</span>
+                    <span class="adjective-tag">dasypodine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="ass/donkey">
+                <img src="file:///tmp/ass_donkey_image.jpg" alt="Ass/donkey" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Ass/donkey</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">asinine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="aves">
+                <img src="file:///tmp/aves_image.png" alt="Aves" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Aves</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">avian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="badger">
+                <img src="file:///tmp/badger_image.jpg" alt="Badger" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Badger</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">mustelid</span>
+                    <span class="adjective-tag">musteline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="bat">
+                <img src="file:///tmp/bat_image.jpg" alt="Bat" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Bat</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">vespertilionid</span>
+                    <span class="adjective-tag">vespertilionine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="bear(list)">
+                <img src="file:///tmp/bear(list)_image.jpg" alt="Bear(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Bear(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ursid</span>
+                    <span class="adjective-tag">ursine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="beaver">
+                <img src="file:///tmp/beaver_image.jpg" alt="Beaver" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Beaver</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">castorid</span>
+                    <span class="adjective-tag">castorine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="bee">
+                <img src="file:///tmp/bee_image.jpg" alt="Bee" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Bee</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">anthophilan</span>
+                    <span class="adjective-tag">apid</span>
+                    <span class="adjective-tag">apine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="beetle">
+                <img src="file:///tmp/beetle_image.png" alt="Beetle" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Beetle</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">scarabaeid</span>
+                    <span class="adjective-tag">scarabaeine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="binturong">
+                <img src="file:///tmp/binturong_image.jpg" alt="Binturong" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Binturong</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">potosine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="bobcat">
+                <img src="file:///tmp/bobcat_image.jpg" alt="Bobcat" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Bobcat</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">feline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="bovinae">
+                <img src="file:///tmp/bovinae_image.jpg" alt="Bovinae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Bovinae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">bovine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="butterfly">
+                <img src="file:///tmp/butterfly_image.jpg" alt="Butterfly" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Butterfly</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">papilionine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="camel">
+                <img src="file:///tmp/camel_image.jpg" alt="Camel" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Camel</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">camelid</span>
+                    <span class="adjective-tag">cameline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="caninae">
+                <img src="file:///tmp/caninae_image.jpg" alt="Caninae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Caninae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">canine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="cardinal">
+                <img src="file:///tmp/cardinal_image.jpg" alt="Cardinal" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cardinal</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cardinalid</span>
+                    <span class="adjective-tag">cardinaline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="cat(list)">
+                <img src="file:///tmp/cat(list)_image.jpg" alt="Cat(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cat(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">feline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="cattle[c](list)">
+                <img src="file:///tmp/cattle[c](list)_image.jpg" alt="Cattle[c](list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cattle[c](list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (4)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">bovine[d]</span>
+                    <span class="adjective-tag">taurine (male)</span>
+                    <span class="adjective-tag">vaccine (female)</span>
+                    <span class="adjective-tag">vituline (young)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="cetacea">
+                <img src="file:///tmp/cetacea_image.jpg" alt="Cetacea" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cetacea</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cetacean</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="cheetah">
+                <img src="file:///tmp/cheetah_image.jpg" alt="Cheetah" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cheetah</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">feline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="chicken(list)">
+                <img src="file:///tmp/chicken(list)_image.jpg" alt="Chicken(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Chicken(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">galline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="chimpanzee">
+                <img src="file:///tmp/chimpanzee_image.jpg" alt="Chimpanzee" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Chimpanzee</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">simian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="chinchilla">
+                <img src="file:///tmp/chinchilla_image.jpg" alt="Chinchilla" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Chinchilla</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">chinchillid</span>
+                    <span class="adjective-tag">chinchilline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="chough">
+                <img src="file:///tmp/chough_image.jpg" alt="Chough" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Chough</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">pyrrhocoracine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="cobra">
+                <img src="file:///tmp/cobra_image.jpg" alt="Cobra" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cobra</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">elapid</span>
+                    <span class="adjective-tag">elapine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="cockroach">
+                <img src="file:///tmp/cockroach_image.png" alt="Cockroach" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cockroach</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">blattid</span>
+                    <span class="adjective-tag">blattine</span>
+                    <span class="adjective-tag">blattodean</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="cod">
+                <img src="file:///tmp/cod_image.jpg" alt="Cod" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cod</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">gadid</span>
+                    <span class="adjective-tag">gadine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="cormorant">
+                <img src="file:///tmp/cormorant_image.jpg" alt="Cormorant" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Cormorant</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">phalacrocoracid</span>
+                    <span class="adjective-tag">phalacrocoracine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="crab">
+                <img src="file:///tmp/crab_image.jpg" alt="Crab" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Crab</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">brachyuran</span>
+                    <span class="adjective-tag">cancrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="crane">
+                <img src="file:///tmp/crane_image.jpg" alt="Crane" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Crane</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">alectorid</span>
+                    <span class="adjective-tag">alectorine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="crocodile">
+                <img src="file:///tmp/crocodile_image.jpg" alt="Crocodile" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Crocodile</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">crocodilian</span>
+                    <span class="adjective-tag">suchian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="crow">
+                <img src="file:///tmp/crow_image.jpg" alt="Crow" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Crow</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">corvine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="deer">
+                <img src="file:///tmp/deer_image.jpg" alt="Deer" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Deer</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cervid</span>
+                    <span class="adjective-tag">cervine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="dog(list)">
+                <img src="file:///tmp/dog(list)_image.jpg" alt="Dog(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Dog(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">canid</span>
+                    <span class="adjective-tag">canine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="dogfishalso seeshark">
+                <div class="animal-image placeholder">🐾 DogfishAlso seeShark</div>
+                <div class="image-info">❌ No Image</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">DogfishAlso seeShark</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">selachian</span>
+                    <span class="adjective-tag">squaloid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="dolphin">
+                <img src="file:///tmp/dolphin_image.jpg" alt="Dolphin" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Dolphin</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">delphine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="dove">
+                <img src="file:///tmp/dove_image.jpg" alt="Dove" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Dove</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">columbid</span>
+                    <span class="adjective-tag">columbine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="duck(list)also seemallard">
+                <img src="file:///tmp/duck(list)also_seemallard_image.jpg" alt="Duck(list)Also seeMallard" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Duck(list)Also seeMallard</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">anatid</span>
+                    <span class="adjective-tag">anatine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="dunlin">
+                <img src="file:///tmp/dunlin_image.png" alt="Dunlin" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Dunlin</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">scolopacid</span>
+                    <span class="adjective-tag">scolopacine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="eagle">
+                <img src="file:///tmp/eagle_image.jpg" alt="Eagle" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Eagle</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">accipitrid</span>
+                    <span class="adjective-tag">accipitrine</span>
+                    <span class="adjective-tag">aquiline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="echidna">
+                <img src="file:///tmp/echidna_image.jpg" alt="Echidna" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Echidna</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">tachyglossid</span>
+                    <span class="adjective-tag">tachyglossine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="eel">
+                <img src="file:///tmp/eel_image.jpg" alt="Eel" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Eel</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">anguillid</span>
+                    <span class="adjective-tag">anguilline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="elephant">
+                <img src="file:///tmp/elephant_image.jpg" alt="Elephant" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Elephant</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (5)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">elephantid</span>
+                    <span class="adjective-tag">elephantine</span>
+                    <span class="adjective-tag">pachyderm</span>
+                    <span class="adjective-tag">proboscidean</span>
+                    <span class="adjective-tag">proboscine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="elk/wapiti">
+                <img src="file:///tmp/elk_wapiti_image.jpg" alt="Elk/wapiti" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Elk/wapiti</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cervid</span>
+                    <span class="adjective-tag">cervine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="equidae">
+                <img src="file:///tmp/equidae_image.jpg" alt="Equidae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Equidae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">equine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="falcon">
+                <img src="file:///tmp/falcon_image.jpg" alt="Falcon" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Falcon</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">falconid</span>
+                    <span class="adjective-tag">falconine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="felidae">
+                <img src="file:///tmp/felidae_image.jpg" alt="Felidae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Felidae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">feline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="ferret">
+                <img src="file:///tmp/ferret_image.png" alt="Ferret" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Ferret</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">mustelid</span>
+                    <span class="adjective-tag">musteline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="finch">
+                <img src="file:///tmp/finch_image.jpg" alt="Finch" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Finch</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">fringilline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="flamingo">
+                <img src="file:///tmp/flamingo_image.jpg" alt="Flamingo" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Flamingo</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">phoenicopterid</span>
+                    <span class="adjective-tag">phoenicopterine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="fly">
+                <img src="file:///tmp/fly_image.jpg" alt="Fly" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Fly</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">muscid</span>
+                    <span class="adjective-tag">muscine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="fox">
+                <img src="file:///tmp/fox_image.jpg" alt="Fox" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Fox</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">vulpine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="frog">
+                <img src="file:///tmp/frog_image.jpg" alt="Frog" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Frog</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ranid</span>
+                    <span class="adjective-tag">ranine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="gerbil">
+                <img src="file:///tmp/gerbil_image.jpg" alt="Gerbil" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Gerbil</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">gerbilline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="giant panda">
+                <img src="file:///tmp/giant_panda_image.jpg" alt="Giant panda" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Giant panda</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ailuropodid</span>
+                    <span class="adjective-tag">ailuropodine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="giraffe">
+                <img src="file:///tmp/giraffe_image.jpg" alt="Giraffe" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Giraffe</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">giraffid</span>
+                    <span class="adjective-tag">giraffine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="goat(list)">
+                <img src="file:///tmp/goat(list)_image.jpg" alt="Goat(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Goat(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">caprid</span>
+                    <span class="adjective-tag">caprine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="goldfinch">
+                <img src="file:///tmp/goldfinch_image.jpg" alt="Goldfinch" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Goldfinch</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cardueline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="goose">
+                <img src="file:///tmp/goose_image.jpg" alt="Goose" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Goose</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">anatid</span>
+                    <span class="adjective-tag">anatine</span>
+                    <span class="adjective-tag">anserine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="gorilla">
+                <img src="file:///tmp/gorilla_image.jpg" alt="Gorilla" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Gorilla</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">simian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="grasshopper">
+                <img src="file:///tmp/grasshopper_image.jpg" alt="Grasshopper" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Grasshopper</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">caeliferian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="grouse">
+                <img src="file:///tmp/grouse_image.jpg" alt="Grouse" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Grouse</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">tetraonid</span>
+                    <span class="adjective-tag">tetraonine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="guanaco">
+                <img src="file:///tmp/guanaco_image.jpg" alt="Guanaco" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Guanaco</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">camelid</span>
+                    <span class="adjective-tag">cameline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="guinea fowl">
+                <img src="file:///tmp/guinea_fowl_image.jpg" alt="Guinea fowl" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Guinea fowl</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">numidid</span>
+                    <span class="adjective-tag">numidine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="hamster">
+                <img src="file:///tmp/hamster_image.jpg" alt="Hamster" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hamster</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cricetid</span>
+                    <span class="adjective-tag">cricetine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="hare">
+                <img src="file:///tmp/hare_image.jpg" alt="Hare" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hare</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">leporine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="hawk">
+                <img src="file:///tmp/hawk_image.jpg" alt="Hawk" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hawk</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">accipitrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="hedgehog">
+                <img src="file:///tmp/hedgehog_image.jpg" alt="Hedgehog" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hedgehog</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">erinaceine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="heron">
+                <img src="file:///tmp/heron_image.jpg" alt="Heron" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Heron</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ardeid</span>
+                    <span class="adjective-tag">ardeine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="herring">
+                <img src="file:///tmp/herring_image.png" alt="Herring" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Herring</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">clupeid</span>
+                    <span class="adjective-tag">clupeine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="hippopotamus">
+                <img src="file:///tmp/hippopotamus_image.jpg" alt="Hippopotamus" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hippopotamus</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">hippopotamid</span>
+                    <span class="adjective-tag">hippopotamine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="hornet">
+                <img src="file:///tmp/hornet_image.jpg" alt="Hornet" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hornet</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">vespid</span>
+                    <span class="adjective-tag">vespine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="horse(list)">
+                <img src="file:///tmp/horse(list)_image.jpg" alt="Horse(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Horse(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">caballine</span>
+                    <span class="adjective-tag">equid</span>
+                    <span class="adjective-tag">equine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="human">
+                <img src="file:///tmp/human_image.jpg" alt="Human" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Human</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">simian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="hyena">
+                <img src="file:///tmp/hyena_image.jpg" alt="Hyena" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Hyena</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">hyenid</span>
+                    <span class="adjective-tag">hyenine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="jay">
+                <img src="file:///tmp/jay_image.jpg" alt="Jay" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Jay</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">corvid</span>
+                    <span class="adjective-tag">corvine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="jellyfish">
+                <img src="file:///tmp/jellyfish_image.jpg" alt="Jellyfish" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Jellyfish</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">medusozoan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="kangaroo">
+                <img src="file:///tmp/kangaroo_image.jpg" alt="Kangaroo" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Kangaroo</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">macropodine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="kinkajou">
+                <img src="file:///tmp/kinkajou_image.jpg" alt="Kinkajou" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Kinkajou</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">potosine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="koala">
+                <img src="file:///tmp/koala_image.jpg" alt="Koala" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Koala</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">phascolarctid</span>
+                    <span class="adjective-tag">phascolarctine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="ladybug">
+                <img src="file:///tmp/ladybug_image.jpg" alt="Ladybug" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Ladybug</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">coccinellid</span>
+                    <span class="adjective-tag">coccinelline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="lapwing">
+                <img src="file:///tmp/lapwing_image.jpg" alt="Lapwing" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Lapwing</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">vanelline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="lark">
+                <img src="file:///tmp/lark_image.jpg" alt="Lark" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Lark</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">alaudine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="lemur">
+                <img src="file:///tmp/lemur_image.jpg" alt="Lemur" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Lemur</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">lemurine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="leopard">
+                <img src="file:///tmp/leopard_image.jpg" alt="Leopard" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Leopard</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">leopardine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="leporidae">
+                <img src="file:///tmp/leporidae_image.jpg" alt="Leporidae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Leporidae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">leporid</span>
+                    <span class="adjective-tag">leporine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="lion">
+                <img src="file:///tmp/lion_image.jpg" alt="Lion" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Lion</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">leonine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="llama">
+                <img src="file:///tmp/llama_image.jpg" alt="Llama" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Llama</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">camelid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="lobster">
+                <img src="file:///tmp/lobster_image.jpg" alt="Lobster" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Lobster</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">nephropid</span>
+                    <span class="adjective-tag">nephropine</span>
+                    <span class="adjective-tag">nephropoid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="locust(list)">
+                <img src="file:///tmp/locust(list)_image.jpg" alt="Locust(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Locust(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">caeliferan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="lyrebird">
+                <img src="file:///tmp/lyrebird_image.jpg" alt="Lyrebird" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Lyrebird</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">menurine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="mallardalso seeduck">
+                <img src="file:///tmp/mallardalso_seeduck_image.jpg" alt="MallardAlso seeDuck" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">MallardAlso seeDuck</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">anatid</span>
+                    <span class="adjective-tag">anatine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="meerkat">
+                <img src="file:///tmp/meerkat_image.jpg" alt="Meerkat" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Meerkat</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">herpestine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="mole">
+                <img src="file:///tmp/mole_image.jpg" alt="Mole" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Mole</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">talpine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="mongoose">
+                <img src="file:///tmp/mongoose_image.png" alt="Mongoose" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Mongoose</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">herpestine</span>
+                    <span class="adjective-tag">hespertid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="monkey">
+                <img src="file:///tmp/monkey_image.jpg" alt="Monkey" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Monkey</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">simian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="moose">
+                <img src="file:///tmp/moose_image.jpg" alt="Moose" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Moose</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">alceine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="mosquito">
+                <img src="file:///tmp/mosquito_image.jpg" alt="Mosquito" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Mosquito</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">culicid</span>
+                    <span class="adjective-tag">culicine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="moth">
+                <img src="file:///tmp/moth_image.jpg" alt="Moth" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Moth</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">lepidopteran</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="mouse">
+                <img src="file:///tmp/mouse_image.jpg" alt="Mouse" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Mouse</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">murid</span>
+                    <span class="adjective-tag">murine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="mustelidae">
+                <img src="file:///tmp/mustelidae_image.jpg" alt="Mustelidae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Mustelidae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">mustelid</span>
+                    <span class="adjective-tag">musteline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="narwhal">
+                <img src="file:///tmp/narwhal_image.jpg" alt="Narwhal" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Narwhal</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (4)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cetacean</span>
+                    <span class="adjective-tag">cetaceous</span>
+                    <span class="adjective-tag">monodontid</span>
+                    <span class="adjective-tag">monodontine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="newt">
+                <img src="file:///tmp/newt_image.jpg" alt="Newt" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Newt</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">pleurodeline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="nightingale">
+                <img src="file:///tmp/nightingale_image.jpg" alt="Nightingale" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Nightingale</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">philomelian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="octopus">
+                <img src="file:///tmp/octopus_image.jpg" alt="Octopus" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Octopus</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">octopodid</span>
+                    <span class="adjective-tag">octopodine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="opossum">
+                <img src="file:///tmp/opossum_image.jpg" alt="Opossum" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Opossum</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">didelphid</span>
+                    <span class="adjective-tag">didelphine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="osteichthyes">
+                <img src="file:///tmp/osteichthyes_image.jpg" alt="Osteichthyes" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Osteichthyes</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ichthyic</span>
+                    <span class="adjective-tag">piscine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="otter">
+                <img src="file:///tmp/otter_image.jpg" alt="Otter" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Otter</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">lutrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="owl">
+                <img src="file:///tmp/owl_image.jpg" alt="Owl" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Owl</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">strigid</span>
+                    <span class="adjective-tag">strigine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="oyster">
+                <img src="file:///tmp/oyster_image.jpg" alt="Oyster" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Oyster</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ostreid</span>
+                    <span class="adjective-tag">ostreine</span>
+                    <span class="adjective-tag">ostreoid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="panther">
+                <img src="file:///tmp/panther_image.jpg" alt="Panther" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Panther</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">pantherine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="partridge">
+                <img src="file:///tmp/partridge_image.jpg" alt="Partridge" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Partridge</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">pavonine</span>
+                    <span class="adjective-tag">phasianine</span>
+                    <span class="adjective-tag">rolluline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="peafowl">
+                <img src="file:///tmp/peafowl_image.jpg" alt="Peafowl" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Peafowl</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">pavonine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="pelican">
+                <img src="file:///tmp/pelican_image.jpg" alt="Pelican" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Pelican</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">pelecanid</span>
+                    <span class="adjective-tag">pelecanine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="penguin">
+                <img src="file:///tmp/penguin_image.jpg" alt="Penguin" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Penguin</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">spheniscid</span>
+                    <span class="adjective-tag">spheniscine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="pheasant">
+                <img src="file:///tmp/pheasant_image.jpg" alt="Pheasant" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Pheasant</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">phasianid</span>
+                    <span class="adjective-tag">phasianine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="pig(list)also seeboar">
+                <img src="file:///tmp/pig(list)also_seeboar_image.jpg" alt="Pig(list)Also seeBoar" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Pig(list)Also seeBoar</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">porcine</span>
+                    <span class="adjective-tag">suine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="pigeon(list)">
+                <img src="file:///tmp/pigeon(list)_image.jpg" alt="Pigeon(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Pigeon(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">columbid</span>
+                    <span class="adjective-tag">columbine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="platypus">
+                <img src="file:///tmp/platypus_image.jpg" alt="Platypus" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Platypus</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ornithorhynchid</span>
+                    <span class="adjective-tag">ornithorhynchine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="polar bear">
+                <img src="file:///tmp/polar_bear_image.jpg" alt="Polar bear" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Polar bear</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ursid</span>
+                    <span class="adjective-tag">ursine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="porcupine">
+                <img src="file:///tmp/porcupine_image.jpg" alt="Porcupine" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Porcupine</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (4)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">erethizobtid</span>
+                    <span class="adjective-tag">erethizontine</span>
+                    <span class="adjective-tag">hystricid</span>
+                    <span class="adjective-tag">hystricine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="prairie dog">
+                <img src="file:///tmp/prairie_dog_image.jpg" alt="Prairie dog" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Prairie dog</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cynomurid</span>
+                    <span class="adjective-tag">cynomurine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="quail">
+                <img src="file:///tmp/quail_image.jpg" alt="Quail" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Quail</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">phasianid</span>
+                    <span class="adjective-tag">phasianine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="rabbit(list)">
+                <img src="file:///tmp/rabbit(list)_image.jpg" alt="Rabbit(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Rabbit(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">leporid</span>
+                    <span class="adjective-tag">leporine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="raccoon">
+                <img src="file:///tmp/raccoon_image.jpg" alt="Raccoon" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Raccoon</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">procyonid</span>
+                    <span class="adjective-tag">procyonine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="ramalso seesheep">
+                <img src="file:///tmp/ramalso_seesheep_image.jpg" alt="RamAlso seeSheep" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">RamAlso seeSheep</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">arietine</span>
+                    <span class="adjective-tag">ovine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="rat(list)">
+                <img src="file:///tmp/rat(list)_image.jpg" alt="Rat(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Rat(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">murid</span>
+                    <span class="adjective-tag">murine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="raven">
+                <img src="file:///tmp/raven_image.jpg" alt="Raven" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Raven</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">corvid</span>
+                    <span class="adjective-tag">corvine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="rhinoceros">
+                <img src="file:///tmp/rhinoceros_image.png" alt="Rhinoceros" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Rhinoceros</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">rhinocerotid</span>
+                    <span class="adjective-tag">rhinocerotine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="salamander">
+                <img src="file:///tmp/salamander_image.jpg" alt="Salamander" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Salamander</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">caudatan</span>
+                    <span class="adjective-tag">salamandrid</span>
+                    <span class="adjective-tag">salamandrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="salmon">
+                <img src="file:///tmp/salmon_image.jpg" alt="Salmon" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Salmon</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">salmonine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="sand dollar">
+                <img src="file:///tmp/sand_dollar_image.jpg" alt="Sand dollar" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Sand dollar</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">clypeasterid</span>
+                    <span class="adjective-tag">clypeasterine</span>
+                    <span class="adjective-tag">clypeasteroid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="sandpiper">
+                <img src="file:///tmp/sandpiper_image.jpg" alt="Sandpiper" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Sandpiper</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">scolopacid</span>
+                    <span class="adjective-tag">scolopacine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="sea otter">
+                <img src="file:///tmp/sea_otter_image.jpg" alt="Sea otter" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Sea otter</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">lutrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="seahorse">
+                <img src="file:///tmp/seahorse_image.jpg" alt="Seahorse" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Seahorse</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">hippocampine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="seal">
+                <img src="file:///tmp/seal_image.jpg" alt="Seal" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Seal</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">phocid</span>
+                    <span class="adjective-tag">phocine</span>
+                    <span class="adjective-tag">pinnipedian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="shark">
+                <img src="file:///tmp/shark_image.jpg" alt="Shark" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Shark</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">selachian</span>
+                    <span class="adjective-tag">squaloid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="sheep(list)also seeram">
+                <img src="file:///tmp/sheep(list)also_seeram_image.jpg" alt="Sheep(list)Also seeRam" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Sheep(list)Also seeRam</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ovine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="skunk">
+                <img src="file:///tmp/skunk_image.jpg" alt="Skunk" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Skunk</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">mephitid</span>
+                    <span class="adjective-tag">mephitine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="snail">
+                <img src="file:///tmp/snail_image.jpg" alt="Snail" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Snail</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">gastropodine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="snake(list)">
+                <img src="file:///tmp/snake(list)_image.jpg" alt="Snake(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Snake(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (5)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">anguine</span>
+                    <span class="adjective-tag">elapine</span>
+                    <span class="adjective-tag">ophidian</span>
+                    <span class="adjective-tag">serpentine</span>
+                    <span class="adjective-tag">viperine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="spider(list)">
+                <img src="file:///tmp/spider(list)_image.jpg" alt="Spider(list)" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Spider(list)</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">arachnid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="spoonbill">
+                <img src="file:///tmp/spoonbill_image.jpg" alt="Spoonbill" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Spoonbill</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">plataleine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="squid">
+                <img src="file:///tmp/squid_image.jpg" alt="Squid" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Squid</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">teuthine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="squirrel">
+                <img src="file:///tmp/squirrel_image.jpg" alt="Squirrel" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Squirrel</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">sciurid</span>
+                    <span class="adjective-tag">sciurine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="starfish">
+                <img src="file:///tmp/starfish_image.png" alt="Starfish" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Starfish</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">asteroid</span>
+                    <span class="adjective-tag">galaxy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="starling">
+                <img src="file:///tmp/starling_image.jpg" alt="Starling" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Starling</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">sturnid</span>
+                    <span class="adjective-tag">sturnine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="stingray">
+                <img src="file:///tmp/stingray_image.jpg" alt="Stingray" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Stingray</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">myliobatoid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="suinae">
+                <img src="file:///tmp/suinae_image.jpg" alt="Suinae" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Suinae</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">porcine</span>
+                    <span class="adjective-tag">suine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="swan">
+                <img src="file:///tmp/swan_image.jpg" alt="Swan" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Swan</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">cygnine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="termite">
+                <img src="file:///tmp/termite_image.jpg" alt="Termite" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Termite</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">termitid</span>
+                    <span class="adjective-tag">termitine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="thrush">
+                <img src="file:///tmp/thrush_image.jpg" alt="Thrush" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Thrush</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">turdid</span>
+                    <span class="adjective-tag">turdine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="tiger">
+                <img src="file:///tmp/tiger_image.jpg" alt="Tiger" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Tiger</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">tigrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="toad">
+                <img src="file:///tmp/toad_image.jpg" alt="Toad" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Toad</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (3)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">batrachian</span>
+                    <span class="adjective-tag">ranid</span>
+                    <span class="adjective-tag">ranine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="toucan">
+                <img src="file:///tmp/toucan_image.jpg" alt="Toucan" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Toucan</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">ramphastid</span>
+                    <span class="adjective-tag">ramphastine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="turtle">
+                <img src="file:///tmp/turtle_image.jpg" alt="Turtle" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Turtle</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">chelonian</span>
+                    <span class="adjective-tag">testudine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="viper">
+                <img src="file:///tmp/viper_image.jpg" alt="Viper" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Viper</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">viperine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="wasp">
+                <img src="file:///tmp/wasp_image.jpg" alt="Wasp" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Wasp</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">vespine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="weasel">
+                <img src="file:///tmp/weasel_image.jpg" alt="Weasel" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Weasel</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">mustelid</span>
+                    <span class="adjective-tag">musteline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="whale">
+                <img src="file:///tmp/whale_image.jpg" alt="Whale" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Whale</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">balaenine</span>
+                    <span class="adjective-tag">cetacean</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card" data-animal="wildebeest">
+                <img src="file:///tmp/wildebeest_image.jpg" alt="Wildebeest" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Wildebeest</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (1)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">connochaetine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="wolf">
+                <img src="file:///tmp/wolf_image.jpg" alt="Wolf" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Wolf</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">canine</span>
+                    <span class="adjective-tag">lupine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="wombat">
+                <img src="file:///tmp/wombat_image.jpg" alt="Wombat" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Wombat</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">vombatid</span>
+                    <span class="adjective-tag">vombatine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="animal-card multiple-adjectives" data-animal="zebra">
+                <img src="file:///tmp/zebra_image.jpg" alt="Zebra" class="animal-image" loading="lazy">
+                <div class="image-info">📁 Local</div>
+                <div class="animal-content">
+                    <h3 class="animal-name">Zebra</h3>
+                    <div class="adjectives-section">
+                        <div class="adjectives-label">
+                            Collateral Adjectives (2)
+                        </div>
+                        <div class="adjectives-list">
+                            <span class="adjective-tag">hippotigrine</span>
+                    <span class="adjective-tag">zebrine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Data Source:</strong> <a href="https://en.wikipedia.org/wiki/List_of_animal_names" target="_blank">Wikipedia: List of Animal Names</a></p>
+            <p><strong>Images:</strong> Downloaded to /tmp/ directory when available</p>
+            <p><strong>Generation Time:</strong> 0.00 seconds</p>
+            <p style="font-size: 0.8em; margin-top: 15px;">
+                This report shows each animal with all of its collateral adjectives.<br>
+                Animals with multiple adjectives are highlighted with a colored border.
+            </p>
+        </div>
+    </div>
+
+    
+        <script>
+            // Search functionality
+            function filterAnimals() {
+                const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+                const animalCards = document.querySelectorAll('.animal-card');
+                let visibleCount = 0;
+
+                animalCards.forEach(card => {
+                    const animalName = card.dataset.animal;
+                    const adjectives = card.querySelectorAll('.adjective-tag');
+                    let matches = false;
+
+                    // Check if animal name matches
+                    if (animalName.includes(searchTerm)) {
+                        matches = true;
+                    }
+
+                    // Check if any adjective matches
+                    adjectives.forEach(tag => {
+                        if (tag.textContent.toLowerCase().includes(searchTerm)) {
+                            matches = true;
+                        }
+                    });
+
+                    if (matches || searchTerm === '') {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Update results count
+                document.getElementById('resultsCount').textContent = 
+                    `Showing ${visibleCount} animals`;
+            }
+
+            // Add event listener when page loads
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchBox = document.getElementById('searchBox');
+                if (searchBox) {
+                    searchBox.addEventListener('input', filterAnimals);
+                }
+            });
+        </script>
+</body>
+</html>
